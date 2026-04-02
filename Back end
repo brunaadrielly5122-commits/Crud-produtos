@@ -1,0 +1,37 @@
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+let produtos = [];
+
+// CREATE
+app.post('/produtos', (req, res) => {
+    const produto = req.body;
+    produtos.push(produto);
+    res.json(produto);
+});
+
+// READ
+app.get('/produtos', (req, res) => {
+    res.json(produtos);
+});
+
+// UPDATE
+app.put('/produtos/:id', (req, res) => {
+    const id = req.params.id;
+    produtos[id] = req.body;
+    res.json(produtos[id]);
+});
+
+// DELETE
+app.delete('/produtos/:id', (req, res) => {
+    produtos.splice(req.params.id, 1);
+    res.json({ mensagem: "Deletado com sucesso" });
+});
+
+app.listen(3000, () => {
+    console.log("Servidor rodando na porta 3000");
+});
